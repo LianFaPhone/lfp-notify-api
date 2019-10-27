@@ -29,15 +29,14 @@ func PreProcess() error {
 	return nil
 }
 
-type PreConfig struct{
-
+type PreConfig struct {
 }
 
 type Config struct {
-	Server  System      `yaml:"system"`
+	Server System `yaml:"system"`
 	//Redis   Redis       `yaml:"redis"`
-	Db      Mysql       `yaml:"mysql"`
-	Qcloud   Qcloud       `yaml:"qcloud"`
+	Db     Mysql  `yaml:"mysql"`
+	Qcloud Qcloud `yaml:"qcloud"`
 	//User    User        `yaml:"user"`
 	//Aws     Aws          `yaml:"aws"`
 	//BussinessLimits BussinessLimits   `yaml:"bussiness_limits"`
@@ -48,24 +47,23 @@ type Config struct {
 }
 
 type System struct {
-	Port    string      `yaml:"port"`
-	Debug   bool        `yaml:"debug"`
-	LogPath string      `yaml:"log_path"`
-	Monitor string      `yaml:"monitor"`
-	BkPort    string      `yaml:"bk_port"`
+	Port    string `yaml:"port"`
+	Debug   bool   `yaml:"debug"`
+	LogPath string `yaml:"log_path"`
+	Monitor string `yaml:"monitor"`
+	BkPort  string `yaml:"bk_port"`
 }
 
-
 type Redis struct {
-	Network     string  `yaml:"network"`
-	Host        string  `yaml:"host"`
-	Port        string  `yaml:"port"`
-	Password    string  `yaml:"password"`
-	Database    int  `yaml:"database"`
-	MaxIdle     int     `yaml:"maxIdle"`
-	MaxActive   int     `yaml:"maxActive"`
-	IdleTimeout int     `yaml:"idleTimeout"`
-	Prefix      string  `yaml:"prefix"`
+	Network     string `yaml:"network"`
+	Host        string `yaml:"host"`
+	Port        string `yaml:"port"`
+	Password    string `yaml:"password"`
+	Database    int    `yaml:"database"`
+	MaxIdle     int    `yaml:"maxIdle"`
+	MaxActive   int    `yaml:"maxActive"`
+	IdleTimeout int    `yaml:"idleTimeout"`
+	Prefix      string `yaml:"prefix"`
 }
 
 type Mysql struct {
@@ -80,7 +78,6 @@ type Mysql struct {
 	Debug         bool   `yaml:"debug"`
 	ParseTime     bool   `yaml:"parseTime"`
 }
-
 
 type Qcloud struct {
 	AppId  string `yaml:"appid"`

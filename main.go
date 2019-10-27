@@ -29,14 +29,14 @@ func main() {
 	defer PanicPrint()
 
 	if err := Loader(); err != nil {
-		ZapLog().Sugar().Error("Loader panic....")
+		ZapLog().Sugar().Error("Loader panic....", zap.Error(err))
 		return
 	}
 
 	srv := NewWebServer()
 	ZapLog().Sugar().Info("WebServer Start Runing...")
 	srv.Run() //阻塞
-	time.Sleep(time.Second*2)
+	time.Sleep(time.Second * 2)
 	srv.Stop()
 	UnLoader()
 	//	c := make(chan os.Signal, 1)
