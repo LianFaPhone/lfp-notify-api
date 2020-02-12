@@ -12,6 +12,7 @@ type (
 		ReTry    int      `valid:"optional" json:"retry,omitempty"`     // 0不，1是
 		Remark   *string  `valid:"optional" json:"remark,omitempty"`
 		PlatformTp *int   `valid:"optional" json:"platform_tp,omitempty"` //平台类型
+
 	}
 
 	DingSend struct {

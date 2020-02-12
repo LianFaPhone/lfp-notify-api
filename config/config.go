@@ -86,8 +86,10 @@ type Qcloud struct {
 	Sign   string `yaml:"sign"`
 }
 
+
 type ChuangLan struct {
 	Account string `yaml:"account"`
 	Pwd     string `yaml:"pwd"`
 	Url     string `yaml:"url"`
 }
+
