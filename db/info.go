@@ -1,9 +1,9 @@
 package db
 
-import (
-	"LianFaPhone/bas-tools/sdk.aws.s3"
-	"LianFaPhone/bas-tools/sdk.aws.sts"
-)
+//import (
+//	"LianFaPhone/bas-tools/sdk.aws.s3"
+//	"LianFaPhone/bas-tools/sdk.aws.sts"
+//)
 
 //const(
 //	TASKSTATUS_InQueue = 0
@@ -35,7 +35,6 @@ import (
 //		Msg: msg,
 //	}
 //}
-
 
 type DbOptions struct {
 	Host        string

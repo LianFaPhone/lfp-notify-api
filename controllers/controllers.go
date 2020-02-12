@@ -1,20 +1,17 @@
 package controllers
 
 import (
-	"github.com/kataras/iris/context"
 	"LianFaPhone/lfp-notify-api/common"
-
+	"github.com/kataras/iris/context"
 )
-
 
 type (
 	Controllers struct {
-
 	}
 
 	Response struct {
 		Code    int         `json:"code"`
-		Message string `json:"message"`
+		Message string      `json:"message"`
 		Data    interface{} `json:"data,omitempty"`
 	}
 )
@@ -58,7 +55,7 @@ func (c *Controllers) ExceptionSeriveWithData(
 
 	ctx.JSON(
 		Response{
-			Code:    code,
-			Data:    data,
+			Code: code,
+			Data: data,
 		})
 }

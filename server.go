@@ -1,19 +1,19 @@
 package main
 
 import (
+	"LianFaPhone/lfp-notify-api/config"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/pprof"
 	"github.com/kataras/iris/middleware/recover"
 	"go.uber.org/zap"
-	"LianFaPhone/lfp-notify-api/config"
 
 	. "LianFaPhone/lfp-base/log/zap"
 )
 
 type WebServer struct {
-	mIris  *iris.Application
-	mBkIris  *iris.Application
+	mIris   *iris.Application
+	mBkIris *iris.Application
 }
 
 func NewWebServer() *WebServer {
@@ -52,7 +52,7 @@ func (this *WebServer) Init() error {
 }
 
 func (this *WebServer) Run() error {
-	ZapLog().Info("WebServer Run with port["+config.GConfig.Server.Port+"]")
+	ZapLog().Info("WebServer Run with port[" + config.GConfig.Server.Port + "]")
 
 	//go this.bkRun()
 
@@ -67,7 +67,7 @@ func (this *WebServer) Run() error {
 	return nil
 }
 
-func (this *WebServer) Stop() error {//这里要处理下，全部锁得再看看，还有就是qid
+func (this *WebServer) Stop() error { //这里要处理下，全部锁得再看看，还有就是qid
 	return nil
 }
 

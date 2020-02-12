@@ -1,14 +1,13 @@
 package main
 
 import (
-
-	"LianFaPhone/zhengjia-notify-api/config"
+	"LianFaPhone/lfp-notify-api/config"
 	//"LianFaPhone/bas-filetransfer-srv/api"
-	"LianFaPhone/zhengjia-notify-api/db"
-	"LianFaPhone/zhengjia-notify-api/models"
+	"LianFaPhone/lfp-notify-api/db"
+	"LianFaPhone/lfp-notify-api/models"
+	"LianFaPhone/lfp-notify-api/sms"
 	"math/rand"
 	"time"
-	"LianFaPhone/zhengjia-notify-api/sms"
 )
 
 func Loader() error {

@@ -1,16 +1,15 @@
 package models
 
 import (
+	. "LianFaPhone/lfp-base/log/zap"
+	"go.uber.org/zap"
 	"math"
 	"math/rand"
-	"go.uber.org/zap"
 	"runtime/debug"
-	. "LianFaPhone/lfp-base/log/zap"
 )
 
-const(
+const (
 	CONST_NOTIFY_MSG_TYPE_ROB = 1
-
 )
 
 func AdjustFloatAcc(f float64, n int) float64 {
@@ -18,8 +17,8 @@ func AdjustFloatAcc(f float64, n int) float64 {
 	return math.Trunc((f+0.5/n10)*n10) / n10
 }
 
-type SqlPairCondition struct{
-	Key  interface{}
+type SqlPairCondition struct {
+	Key   interface{}
 	Value interface{}
 }
 
