@@ -9,7 +9,9 @@ import (
 )
 
 const (
-	CONST_NOTIFY_MSG_TYPE_ROB = 1
+	CONST_SMS_TP_Yzm = 0
+	CONST_SMS_TP_Tz = 1
+	CONST_SMS_TP_Hyyx = 2
 )
 
 func AdjustFloatAcc(f float64, n int) float64 {

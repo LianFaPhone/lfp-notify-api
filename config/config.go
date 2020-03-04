@@ -88,8 +88,10 @@ type Qcloud struct {
 
 
 type ChuangLan struct {
-	Account string `yaml:"account"`
-	Pwd     string `yaml:"pwd"`
+	YzmAccount string `yaml:"yzm_account"`
+	YzmPwd     string `yaml:"yzm_pwd"`
+	HyyxAccount string `yaml:"hyyx_account"`
+	HyyxPwd     string `yaml:"hyyx_pwd"`
 	Url     string `yaml:"url"`
 }
 

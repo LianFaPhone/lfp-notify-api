@@ -60,6 +60,10 @@ func (this *SmsMgr) MultiSend(param *api.SmsSend, temp *models.SmsTemplate) (int
 		param.PlatformTp = new(int)
 		*param.PlatformTp = api.CONST_PlatformTp_QQ
 	}
+	if temp.Tp == nil {
+		temp.Tp = new(int)
+		*temp.Tp = models.CONST_SMS_TP_Hyyx
+	}
 
 	//调用接口
 	switch *param.PlatformTp {
@@ -82,7 +86,7 @@ func (this *SmsMgr) MultiSend(param *api.SmsSend, temp *models.SmsTemplate) (int
 				return 0,err
 			}
 		}
-		return this.ChuanglanMutiSend(smsBody, param.Phone, param.Params)
+		return this.ChuanglanMutiSend(smsBody, param.Phone, param.Params, *temp.Tp)
 	default:
 		return this.MutiQSend(param, temp)
 	}

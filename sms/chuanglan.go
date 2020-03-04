@@ -4,6 +4,8 @@ import (
 	//. "LianFaPhone/lfp-base/log/zap"
 	//"LianFaPhone/lfp-notify-api/api"
 	"LianFaPhone/lfp-notify-api/config"
+	"LianFaPhone/lfp-notify-api/models"
+
 	//"LianFaPhone/lfp-notify-api/models"
 	"bytes"
 	"fmt"
@@ -37,7 +39,7 @@ type ResChuanglanMsg struct {
 }
 
 //成功数量
-func (this *SmsMgr) ChuanglanMutiSend(body string, phones []string, params []string) (num int, err error) {
+func (this *SmsMgr) ChuanglanMutiSend(body string, phones []string, params []string, tp int) (num int, err error) {
 	if len(phones) == 0 {
 		return 0, nil
 	}
@@ -47,7 +49,7 @@ func (this *SmsMgr) ChuanglanMutiSend(body string, phones []string, params []str
 	}
 	if len(params) == 0 {
 		phonesStr := strings.Join(phones, ",")
-		num, err = this.sendToChuanglan(body, phonesStr, "")
+		num, err = this.sendToChuanglan(body, phonesStr, "", tp)
 	} else {
 		newParams := ""
 		for i := 0; i < len(phones); i++ {
@@ -59,7 +61,7 @@ func (this *SmsMgr) ChuanglanMutiSend(body string, phones []string, params []str
 		}
 		phonesStr := strings.Join(phones, ",")
 		newParams = strings.TrimRight(newParams, ";")
-		num, err = this.sendToChuanglan(body, phonesStr, newParams)
+		num, err = this.sendToChuanglan(body, phonesStr, newParams, tp)
 	}
 	if (num == 0) && (err == nil) {
 		return len(phones), err
@@ -67,10 +69,16 @@ func (this *SmsMgr) ChuanglanMutiSend(body string, phones []string, params []str
 	return num, err
 }
 
-func (this *SmsMgr) sendToChuanglan(body, phone string, params string) (int, error) {
+func (this *SmsMgr) sendToChuanglan(body, phone string, params string, tp int) (int, error) {
 	req := new(ReqChuanglanMsg)
-	req.Account = config.GConfig.ChuangLan.Account
-	req.Pwd = config.GConfig.ChuangLan.Pwd
+	if tp == models.CONST_SMS_TP_Hyyx {
+		req.Account = config.GConfig.ChuangLan.HyyxAccount
+		req.Pwd = config.GConfig.ChuangLan.HyyxPwd
+	}else if tp == models.CONST_SMS_TP_Yzm {
+		req.Account = config.GConfig.ChuangLan.YzmAccount
+		req.Pwd = config.GConfig.ChuangLan.YzmPwd
+	}
+
 	req.Report = "true"
 	req.Msg = url.QueryEscape(body)
 	req.Msg = body
