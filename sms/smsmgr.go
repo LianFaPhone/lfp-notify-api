@@ -65,7 +65,7 @@ func (this *SmsMgr) MultiSend(param *api.SmsSend, temp *models.SmsTemplate) (int
 		*temp.Tp = models.CONST_SMS_TP_Hyyx
 	}
 
-	//调用接口
+	//调用接口, 这里函数返回的code有点问题，以后修正
 	switch *param.PlatformTp {
 	case api.CONST_PlatformTp_QQ:
 		return this.MutiQSend(param, temp)
@@ -74,7 +74,7 @@ func (this *SmsMgr) MultiSend(param *api.SmsSend, temp *models.SmsTemplate) (int
 		if temp.Content != nil {
 			newParam :=make(map[string] interface{})
 			for i:=0; i < len(param.Params);i++ {
-				newParam[fmt.Sprintf("%d", i+1)] = param.Params[i]
+				newParam[fmt.Sprintf("k%d", i+1)] = param.Params[i]
 
 			}
 			var err error
@@ -106,3 +106,20 @@ func ParseTextTemplate(tmpBody string, params map[string]interface{}) (string, e
 	}
 	return tplBuf.String(), nil
 }
+
+//func ReplaceTemplate(tmpBody string, params []string) string{
+//	lastIndex := -1
+//	for i:=0; i<len(tmpBody); i++ {
+//		if tmpBody[i] == '{' {
+//			lastIndex = i
+//			continue
+//		}
+//		if tmpBody[i] != '}' {
+//			continue
+//		}
+//		if lastIndex < 0 {
+//			continue
+//		}
+//
+//	}
+//}

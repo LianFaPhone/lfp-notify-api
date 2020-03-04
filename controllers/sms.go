@@ -48,9 +48,9 @@ func (this *SmsCtrler) Send(ctx iris.Context) {
 		return
 	}
 
-	errCode, err := sms.GSmsMgr.MultiSend(param, temp)
-	if errCode != 0 {
-		this.ExceptionSerive(ctx, errCode, err.Error())
+	_, err = sms.GSmsMgr.MultiSend(param, temp)
+	if err !=nil {
+		this.ExceptionSerive(ctx, apibackend.BASERR_SERVICE_UNKNOWN_ERROR.Code(), err.Error())
 		ZapLog().Error("Send err", zap.Error(err), zap.Any("param", *param))
 		return
 	}
