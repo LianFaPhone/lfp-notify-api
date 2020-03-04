@@ -15,6 +15,7 @@ type SmsCtrler struct {
 }
 
 func (this *SmsCtrler) Send(ctx iris.Context) {
+	defer models.PanicPrint()
 	param := new(api.SmsSend)
 
 	err := Tools.ShouldBindJSON(ctx, param)

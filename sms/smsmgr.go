@@ -58,6 +58,7 @@ func (this *SmsMgr) MultiSend(param *api.SmsSend, temp *models.SmsTemplate) (int
 	//检测平台
 	if param.PlatformTp == nil {
 		param.PlatformTp = new(int)
+		*param.PlatformTp = api.CONST_PlatformTp_QQ
 	}
 
 	//调用接口
