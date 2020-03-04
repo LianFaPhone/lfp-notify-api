@@ -1,7 +1,7 @@
 package sms
 
 import (
-	"BastionPay/bas-api/apibackend"
+	. "LianFaPhone/lfp-api/errdef"
 	. "LianFaPhone/lfp-base/log/zap"
 	"LianFaPhone/lfp-notify-api/api"
 	"fmt"
@@ -23,7 +23,7 @@ import (
 
 func (this *SmsMgr) MutiQSend(param *api.SmsSend, temp *models.SmsTemplate) (int, error){
 	if temp.QcloudTid == nil {
-		return apibackend.BASERR_OBJECT_DATA_NOT_FOUND.Code(), fmt.Errorf("qCloudId is nil")
+		return BASERR_OBJECT_DATA_NOT_FOUND.Code(), fmt.Errorf("qCloudId is nil")
 	}
 
 	paramStr, _ := json.Marshal(param.Params)
