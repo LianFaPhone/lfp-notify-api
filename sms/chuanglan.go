@@ -5,6 +5,7 @@ import (
 	//"LianFaPhone/lfp-notify-api/api"
 	"LianFaPhone/lfp-notify-api/config"
 	"LianFaPhone/lfp-notify-api/models"
+	"LianFaPhone/lfp-notify-api/api"
 
 	//"LianFaPhone/lfp-notify-api/models"
 	"bytes"
@@ -39,32 +40,44 @@ type ResChuanglanMsg struct {
 }
 
 //成功数量
-func (this *SmsMgr) ChuanglanMutiSend(body string, phones []string, params []string, tp int) (num int, err error) {
-	if len(phones) == 0 {
+func (this *SmsMgr) ChuanglanMutiSend(body string, param *api.SmsSend, temp *models.SmsTemplate) (num int, err error) {
+	if len(param.Phone) == 0 {
 		return 0, nil
 	}
-	for i:=0; i < len(phones); i++ {
-		phones[i] = strings.TrimLeft(phones[i], "0086")
-		phones[i] = strings.TrimLeft(phones[i], "+86")
+	for i:=0; i < len(param.Phone); i++ {
+		param.Phone[i] = strings.TrimLeft(param.Phone[i], "0086")
+		param.Phone[i] = strings.TrimLeft(param.Phone[i], "+86")
 	}
-	if len(params) == 0 {
-		phonesStr := strings.Join(phones, ",")
-		num, err = this.sendToChuanglan(body, phonesStr, "", tp)
+	phonesStr := strings.Join(param.Phone, ",")
+	if len(param.Params) == 0 {
+	//	phonesStr := strings.Join(param.Phone, ",")
+		num, err = this.sendToChuanglan(body, phonesStr, "", *temp.Tp)
 	} else {
 		newParams := ""
-		for i := 0; i < len(phones); i++ {
-			newParams += phones[i]
-			for j := 0; j < len(params); j++ {
-				newParams += "," + params[j]
+		for i := 0; i < len(param.Phone); i++ {
+			newParams += param.Phone[i]
+			for j := 0; j < len(param.Params); j++ {
+				newParams += "," + param.Params[j]
 			}
 			newParams += ";"
 		}
-		phonesStr := strings.Join(phones, ",")
+		//phonesStr := strings.Join(param.Phone, ",")
 		newParams = strings.TrimRight(newParams, ";")
-		num, err = this.sendToChuanglan(body, phonesStr, newParams, tp)
+		num, err = this.sendToChuanglan(body, phonesStr, newParams, *temp.Tp)
 	}
+	//if param.IsRecord == 1 {
+	//	succFlag := 0
+	//	if err == nil {
+	//		succFlag = 1
+	//	}
+	//	author := ""
+	//	if param.Author != nil {
+	//		author = *param.Author
+	//	}
+	//	this.record(phonesStr, author, string(paramStr), succFlag, param.PlayTp, param.ReTry, temp.Id, param.Remark)
+	//}
 	if (num == 0) && (err == nil) {
-		return len(phones), err
+		return len(param.Phone), err
 	}
 	return num, err
 }

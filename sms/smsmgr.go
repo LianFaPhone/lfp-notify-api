@@ -86,7 +86,7 @@ func (this *SmsMgr) MultiSend(param *api.SmsSend, temp *models.SmsTemplate) (int
 				return 0,err
 			}
 		}
-		return this.ChuanglanMutiSend(smsBody, param.Phone, param.Params, *temp.Tp)
+		return this.ChuanglanMutiSend(smsBody, param,  temp)
 	default:
 		return this.MutiQSend(param, temp)
 	}
