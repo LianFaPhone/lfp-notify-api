@@ -2,9 +2,13 @@ package sms
 
 import (
 	"LianFaPhone/lfp-notify-api/api"
+	"LianFaPhone/lfp-notify-api/common"
+	"LianFaPhone/lfp-notify-api/config"
 	"LianFaPhone/lfp-notify-api/models"
 	. "LianFaPhone/lfp-base/log/zap"
 	"fmt"
+	"net/url"
+
 	//qcloudsms "github.com/qichengzx/qcloudsms_go"
 	"encoding/json"
 	"strings"
@@ -46,16 +50,44 @@ func (this *SmsMgr) MutiYunPianSend(body string, param *api.SmsSend, temp *model
 
 func (this *SmsMgr) YunPianSend(playTp int, phone string,  smsBody string) ( error) {
 
-	yParam := make(map[string]string)
-	yParam[ypclnt.MOBILE] = phone
-	yParam[ypclnt.TEXT] = smsBody
+	//yParam := make(map[string]string)
+	//yParam[ypclnt.MOBILE] = phone
+	//yParam[ypclnt.TEXT] = smsBody
 	//yParam["mobile_stat"] = "true"
 
-	result:=this.yunpian.Sms().Send(yParam)
-	if result.Code != 0 {
-		return fmt.Errorf("%s", result.String())
+	formBody := make(url.Values)
+	formBody.Set(ypclnt.APIKEY, config.GConfig.YunPian.ApiKey)
+	formBody.Set(ypclnt.MOBILE, phone)
+	formBody.Set(ypclnt.TEXT, smsBody)
+	formBody.Set("mobile_stat", "true")
+	resBytes,err := common.HttpFormSend("https://sms.yunpian.com/v2/sms/single_send.json", formBody, "POST", nil)
+	//result:=this.yunpian.Sms().Send(yParam)
+	//if result.Code != 0 {
+	//	return fmt.Errorf("%s", result.String())
+	//}
+	if err != nil {
+		return err
 	}
-	
+
+	res := new(YunPianResponse)
+
+	if err = json.Unmarshal(resBytes, res); err != nil {
+		return err
+	}
+	if res.Code != 0 {
+		return fmt.Errorf("%d-%s", res.Code, res.Msg)
+	}
+
 	return nil
 
+}
+
+type YunPianResponse struct{
+	Code	int   `json:"code"`
+	Msg	    string `json:"msg"`
+	//Count	int     `json:"count"`
+	//Fee	    float64	  `json:"fee"`
+	//Unit	string	`json:"unit"`
+	//Mobile	string	`json:"mobile"`
+	//Sid	    int64        `json:"sid"`
 }
