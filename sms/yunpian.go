@@ -8,6 +8,7 @@ import (
 	//qcloudsms "github.com/qichengzx/qcloudsms_go"
 	"encoding/json"
 	"strings"
+	ypclnt "github.com/yunpian/yunpian-go-sdk/sdk"
 )
 
 func (this *SmsMgr) MutiYunPianSend(body string, param *api.SmsSend, temp *models.SmsTemplate) (int, error){
@@ -46,9 +47,9 @@ func (this *SmsMgr) MutiYunPianSend(body string, param *api.SmsSend, temp *model
 func (this *SmsMgr) YunPianSend(playTp int, phone string,  smsBody string) ( error) {
 
 	yParam := make(map[string]string)
-	yParam["mobile"] = phone
-	yParam["text"] = smsBody
-	yParam["mobile_stat"] = "true"
+	yParam[ypclnt.MOBILE] = phone
+	yParam[ypclnt.TEXT] = smsBody
+	//yParam["mobile_stat"] = "true"
 
 	result:=this.yunpian.Sms().Send(yParam)
 	if result.Code != 0 {
