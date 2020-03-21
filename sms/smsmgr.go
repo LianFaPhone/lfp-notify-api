@@ -11,9 +11,6 @@ import (
 	"github.com/qichengzx/qcloudsms_go"
 	"go.uber.org/zap"
 	text "text/template"
-    ypclnt "github.com/yunpian/yunpian-go-sdk/sdk"
-
-
 )
 
 var GSmsMgr SmsMgr
@@ -21,14 +18,14 @@ var GSmsMgr SmsMgr
 type SmsMgr struct {
 	qcOpt      *qcloudsms.Options
 	recordChan chan *models.SmsRecord
-	yunpian    ypclnt.YunpianClient
+	//yunpian    ypclnt.YunpianClient
 }
 
 func (this *SmsMgr) Init() error {
 	fmt.Println("smsMgr= ", config.GConfig.Qcloud.AppId, config.GConfig.Qcloud.AppKey, config.GConfig.Qcloud.Sign)
 	this.qcOpt = qcloudsms.NewOptions(config.GConfig.Qcloud.AppId, config.GConfig.Qcloud.AppKey, config.GConfig.Qcloud.Sign)
 	this.recordChan = make(chan *models.SmsRecord, 1024)
-	this.yunpian = ypclnt.New(config.GConfig.YunPian.ApiKey)
+	//this.yunpian = ypclnt.New(config.GConfig.YunPian.ApiKey)
 
 	//this.qcSms.SetDebug(true)
 	this.Run()
