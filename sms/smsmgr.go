@@ -11,6 +11,8 @@ import (
 	"github.com/qichengzx/qcloudsms_go"
 	"go.uber.org/zap"
 	text "text/template"
+    ypclnt "github.com/yunpian/yunpian-go-sdk/sdk"
+
 
 )
 
@@ -19,12 +21,14 @@ var GSmsMgr SmsMgr
 type SmsMgr struct {
 	qcOpt      *qcloudsms.Options
 	recordChan chan *models.SmsRecord
+	yunpian    ypclnt.YunpianClient
 }
 
 func (this *SmsMgr) Init() error {
 	fmt.Println("smsMgr= ", config.GConfig.Qcloud.AppId, config.GConfig.Qcloud.AppKey, config.GConfig.Qcloud.Sign)
 	this.qcOpt = qcloudsms.NewOptions(config.GConfig.Qcloud.AppId, config.GConfig.Qcloud.AppKey, config.GConfig.Qcloud.Sign)
 	this.recordChan = make(chan *models.SmsRecord, 1024)
+	this.yunpian = ypclnt.New(config.GConfig.YunPian.ApiKey)
 
 	//this.qcSms.SetDebug(true)
 	this.Run()
@@ -69,6 +73,21 @@ func (this *SmsMgr) MultiSend(param *api.SmsSend, temp *models.SmsTemplate) (int
 	switch *param.PlatformTp {
 	case api.CONST_PlatformTp_QQ:
 		return this.MutiQSend(param, temp)
+	case api.CONST_PlatformTp_YunPian:
+		smsBody := ""
+		if temp.Content != nil {
+			newParam :=make(map[string] interface{})
+			for i:=0; i < len(param.Params);i++ {
+				newParam[fmt.Sprintf("k%d", i+1)] = param.Params[i]
+
+			}
+			var err error
+			smsBody, err = ParseTextTemplate(*temp.Content, newParam)
+			if err != nil {
+				return 0,err
+			}
+		}
+		return this.MutiYunPianSend(smsBody, param, temp)
 	case api.CONST_PlatformTp_ChuangLan:
 		smsBody := ""
 		if temp.Content != nil {
@@ -80,9 +99,6 @@ func (this *SmsMgr) MultiSend(param *api.SmsSend, temp *models.SmsTemplate) (int
 			var err error
 			smsBody, err = ParseTextTemplate(*temp.Content, newParam)
 			if err != nil {
-				//ZapLog().With(zap.Any("tempParam", param.Params), zap.Any("tempid", tmplate.Id), zap.Error(err)).Error("ParseTextTemplate err")
-				//go RecordHistory(*tmplate.GroupId, Notify_Type_Sms, 0, len(this.Recipient), recordFlag)
-				//return apibackend.BASERR_BASNOTIFY_TEMPLATE_PARSE_FAIL.Code(), errors.Annotate(err, "ParseTextTemplate")
 				return 0,err
 			}
 		}

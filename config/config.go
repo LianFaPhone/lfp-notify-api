@@ -38,6 +38,7 @@ type Config struct {
 	Db     Mysql  `yaml:"mysql"`
 	Qcloud Qcloud `yaml:"qcloud"`
 	ChuangLan ChuangLan `yaml:"chuanglan"`
+	YunPian   YunPian   `yaml:"yunpian"`
 	//User    User        `yaml:"user"`
 	//Aws     Aws          `yaml:"aws"`
 	//BussinessLimits BussinessLimits   `yaml:"bussiness_limits"`
@@ -95,3 +96,7 @@ type ChuangLan struct {
 	Url     string `yaml:"url"`
 }
 
+type YunPian struct{
+	ApiKey string  `yaml:"apikey"`
+	Url   string   `yaml:"url"`
+}

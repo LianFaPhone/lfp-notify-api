@@ -7,4 +7,5 @@ const(
 	CONST_PlatformTp_QQ = 0  //默认，腾讯
 	CONST_PlatformTp_Aliyun = 1  //阿里
 	CONST_PlatformTp_ChuangLan = 2  //创蓝
+	CONST_PlatformTp_YunPian = 3  //创蓝
 )
