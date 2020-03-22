@@ -73,7 +73,7 @@ func HttpFormSend(url string, formBody url.Values, method string, headers map[st
 	//}
 
 	if resp.StatusCode != 200 {
-		return nil, errors.New(resp.Status+":"+string(content))
+		return content, errors.New(resp.Status)
 	}
 
 	if ioErr != nil {

@@ -20,7 +20,7 @@ func (this *SmsMgr) MutiYunPianSend(body string, param *api.SmsSend, temp *model
 	var bigCode int
 	var bigErr error
 	body = strings.TrimSuffix(body, "退订回T")
-	body = strings.TrimSuffix(body, "\r\n")
+	//body = strings.TrimSuffix(body, "\r\n")
 	for i := 0; i < len(param.Phone); i++ {
 		phone := strings.TrimSpace(param.Phone[i])
 		if len(phone) <= 0 {
@@ -68,6 +68,13 @@ func (this *SmsMgr) YunPianSend(playTp int, phone string,  smsBody string) ( err
 	//	return fmt.Errorf("%s", result.String())
 	//}
 	if err != nil {
+		if len(resBytes) > 0 {
+			res := new(YunPianResponse)
+			json.Unmarshal(resBytes, res)
+			if len(res.Msg) > 0 {
+				return fmt.Errorf("%d-%s",res.Code,res.Msg)
+			}
+		}
 		return err
 	}
 
