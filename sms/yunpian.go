@@ -20,6 +20,7 @@ func (this *SmsMgr) MutiYunPianSend(body string, param *api.SmsSend, temp *model
 	var bigCode int
 	var bigErr error
 	body = strings.TrimSuffix(body, "退订回T")
+	body = strings.TrimSuffix(body, "\r\n")
 	for i := 0; i < len(param.Phone); i++ {
 		phone := strings.TrimSpace(param.Phone[i])
 		if len(phone) <= 0 {

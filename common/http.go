@@ -67,13 +67,17 @@ func HttpFormSend(url string, formBody url.Values, method string, headers map[st
 	}
 	defer resp.Body.Close()
 
+	content, ioErr := ioutil.ReadAll(resp.Body)
+	//if err != nil {
+	//	return nil, err
+	//}
+
 	if resp.StatusCode != 200 {
-		return nil, errors.New(resp.Status)
+		return nil, errors.New(resp.Status+":"+string(content))
 	}
 
-	content, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
+	if ioErr != nil {
+		return nil,ioErr
 	}
 
 	if len(content) == 0 {
